@@ -14,7 +14,13 @@ def test_valid(mocked_today):
     assert outdated_products(tested_list) == ["test item"]
 
 
-@mock.patch("datetime.date.today")
-def test_expired(mocked_today):
-    mocked_today.return_value = datetime.date(2020, 1, 16)
-    assert outdated_products(tested_list) is None
+@mock.patch.object(datetime.date, "today")
+def test_valid_1(mocked_today):
+    mocked_today.return_value = datetime.date(2020, 1, 15)
+    assert outdated_products(tested_list) == ["test item"]
+
+
+def test_valid_2():
+    with mock.patch.object(datetime.date, "today") as mocked_today:
+        mocked_today.return_value = datetime.date(2020, 1, 15)
+        assert outdated_products(tested_list) == ["test item"]
